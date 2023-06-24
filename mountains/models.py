@@ -1,5 +1,4 @@
 from django.db import models
-from phonenumber_field.modelfields import PhoneNumberField
 
 
 class Author(models.Model):
@@ -7,7 +6,7 @@ class Author(models.Model):
     second_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
     email = models.EmailField(unique=True, null=False, blank=False)
-    phone = PhoneNumberField(unique=True, null=False, blank=False)
+    phone = models.CharField(max_length=12, null=False, blank=False)
 
 
 class Level(models.Model):
@@ -31,8 +30,10 @@ class Mountain(models.Model):
         ('REJ', 'rejected')
     ]
 
+    beauty_title = models.CharField(max_length=255, blank=True)
     title = models.CharField(max_length=255)
     other_title = models.CharField(max_length=255, blank=True)
+    connect = models.CharField(max_length=255, blank=True)
     add_time = models.DateTimeField(auto_now_add=True)
     author = models.ForeignKey(Author, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)

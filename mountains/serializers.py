@@ -5,19 +5,19 @@ from rest_framework import serializers
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = "__all__"
+        fields = ['first_name', 'second_name', 'last_name', 'email', 'phone']
 
 
 class LevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Level
-        fields = "__all__"
+        fields = ['winter', 'summer', 'autumn', 'spring']
 
 
 class CoordsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coords
-        fields = "__all__"
+        fields = ['latitude', 'longitude', 'height']
 
 
 class ImageSerializer(serializers.ModelSerializer):
@@ -34,7 +34,7 @@ class MountainSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Mountain
-        fields = ['title', 'other_title', 'add_time', 'author', 'level', 'coords', 'images', 'status']
+        fields = ['beauty_title', 'title', 'other_title', 'connect', 'add_time', 'author', 'level', 'coords', 'images', 'status']
         read_only_fields = ['pk', 'status', 'add_time']
 
 
