@@ -41,6 +41,6 @@ class Mountain(models.Model):
 
 
 class MountainImages(models.Model):
-    mountain = models.ForeignKey(Mountain, on_delete=models.CASCADE)
+    mountain = models.ForeignKey(Mountain, on_delete=models.CASCADE, related_name='images')
     data = models.URLField()
     title = models.CharField(max_length=255)

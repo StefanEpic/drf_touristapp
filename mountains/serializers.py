@@ -30,13 +30,13 @@ class MountainSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
     level = LevelSerializer()
     coords = CoordsSerializer()
-    images = ImageSerializer(many=True, required=False)
+    images = ImageSerializer(many=True)
 
     class Meta:
         model = Mountain
         fields = ['title', 'other_title', 'add_time', 'author', 'level', 'coords', 'images', 'status']
         read_only_fields = ['pk', 'status', 'add_time']
-        depth = 1
+
 
     def create(self, validated_data):
         author_data = validated_data.pop('author')
