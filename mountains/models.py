@@ -42,5 +42,5 @@ class Mountain(models.Model):
 
 class MountainImages(models.Model):
     mountain = models.ForeignKey(Mountain, on_delete=models.CASCADE)
+    data = models.URLField()
     title = models.CharField(max_length=255)
-    image = models.ImageField(upload_to='mountain_images/%Y/%m/%d/')

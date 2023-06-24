@@ -5,36 +5,38 @@ from rest_framework import serializers
 class AuthorSerializer(serializers.ModelSerializer):
     class Meta:
         model = Author
-        fields = ['first_name', 'second_name', 'last_name', 'email', 'phone']
+        fields = "__all__"
 
 
 class LevelSerializer(serializers.ModelSerializer):
     class Meta:
         model = Level
-        fields = ['winter', 'summer', 'autumn', 'spring']
+        fields = "__all__"
 
 
 class CoordsSerializer(serializers.ModelSerializer):
     class Meta:
         model = Coords
-        fields = ['latitude', 'longitude', 'height']
+        fields = "__all__"
 
 
 class ImageSerializer(serializers.ModelSerializer):
     class Meta:
         model = MountainImages
-        fields = ['title', 'image']
+        fields = ['data', 'title']
 
 
 class MountainSerializer(serializers.ModelSerializer):
     author = AuthorSerializer()
     level = LevelSerializer()
     coords = CoordsSerializer()
-    images = ImageSerializer(source='mountain', many=True)
+    images = ImageSerializer(many=True, required=False)
 
     class Meta:
         model = Mountain
-        fields = ['title', 'other_title', 'author', 'level', 'coords', 'images']
+        fields = ['title', 'other_title', 'add_time', 'author', 'level', 'coords', 'images', 'status']
+        read_only_fields = ['pk', 'status', 'add_time']
+        depth = 1
 
     def create(self, validated_data):
         author_data = validated_data.pop('author')
@@ -49,5 +51,6 @@ class MountainSerializer(serializers.ModelSerializer):
         instance = Mountain.objects.create(author=author, level=level, coords=coords, **validated_data)
         instance.save()
 
-        MountainImages.objects.create(mountain=instance, **images_data)
+        for image_data in images_data:
+            MountainImages.objects.create(mountain=instance, **image_data)
         return instance
