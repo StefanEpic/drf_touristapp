@@ -1,7 +1,7 @@
 from django.contrib import admin
-from .models import Author, Level, Coords, Mountain, MountainImages
+from .models import Users, Level, Coords, Mountain, MountainImages
 
-admin.site.register(Author)
+admin.site.register(Users)
 admin.site.register(Level)
 admin.site.register(Coords)
 admin.site.register(Mountain)

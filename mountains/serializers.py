@@ -1,10 +1,10 @@
-from .models import Mountain, MountainImages, Coords, Author, Level
+from .models import Mountain, MountainImages, Coords, Users, Level
 from rest_framework import serializers
 
 
-class AuthorSerializer(serializers.ModelSerializer):
+class UsersSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Author
+        model = Users
         fields = ['first_name', 'second_name', 'last_name', 'email', 'phone']
 
 
@@ -27,7 +27,7 @@ class ImageSerializer(serializers.ModelSerializer):
 
 
 class MountainSerializer(serializers.ModelSerializer):
-    author = AuthorSerializer()
+    author = UsersSerializer()
     level = LevelSerializer()
     coords = CoordsSerializer()
     images = ImageSerializer(many=True)
@@ -44,7 +44,7 @@ class MountainSerializer(serializers.ModelSerializer):
         cords_data = validated_data.pop('coords')
         images_data = validated_data.pop('images')
 
-        author = Author.objects.create(**author_data)
+        author = Users.objects.create(**author_data)
         level = Level.objects.create(**level_data)
         coords = Coords.objects.create(**cords_data)
 
