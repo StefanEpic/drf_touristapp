@@ -1,7 +1,7 @@
 from django.db import models
 
 
-class Users(models.Model):
+class User(models.Model):
     first_name = models.CharField(max_length=50)
     second_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
@@ -16,7 +16,7 @@ class Level(models.Model):
     spring = models.CharField(max_length=2, blank=True)
 
 
-class Coords(models.Model):
+class Coord(models.Model):
     latitude = models.FloatField()
     longitude = models.FloatField()
     height = models.IntegerField()
@@ -35,13 +35,13 @@ class Mountain(models.Model):
     other_title = models.CharField(max_length=255, blank=True)
     connect = models.CharField(max_length=255, blank=True)
     add_time = models.DateTimeField(auto_now_add=True)
-    author = models.ForeignKey(Users, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    coords = models.ForeignKey(Coord, on_delete=models.CASCADE)
     level = models.ForeignKey(Level, on_delete=models.CASCADE)
-    coords = models.ForeignKey(Coords, on_delete=models.CASCADE)
     status = models.CharField(max_length=3, choices=STATUS, default='NEW')
 
 
-class MountainImages(models.Model):
+class MountainImage(models.Model):
     mountain = models.ForeignKey(Mountain, on_delete=models.CASCADE, related_name='images')
     data = models.URLField()
     title = models.CharField(max_length=255)

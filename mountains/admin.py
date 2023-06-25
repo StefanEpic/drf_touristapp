@@ -1,8 +1,8 @@
 from django.contrib import admin
-from .models import Users, Level, Coords, Mountain, MountainImages
+from .models import User, Level, Coord, Mountain, MountainImage
 
-admin.site.register(Users)
+admin.site.register(User)
 admin.site.register(Level)
-admin.site.register(Coords)
+admin.site.register(Coord)
 admin.site.register(Mountain)
-admin.site.register(MountainImages)
+admin.site.register(MountainImage)
