@@ -34,7 +34,7 @@ class MountainSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Mountain
-        fields = ['beauty_title', 'title', 'other_title', 'connect', 'add_time', 'user', 'coords', 'level', 'images',
+        fields = ['pk', 'beauty_title', 'title', 'other_title', 'connect', 'add_time', 'user', 'coords', 'level', 'images',
                   'status']
         read_only_fields = ['pk', 'status', 'add_time']
 
