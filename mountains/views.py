@@ -7,7 +7,7 @@ from .models import Mountain
 
 
 class MountainsViewset(viewsets.ModelViewSet):
-    queryset = Mountain.objects.all()
+    queryset = Mountain.objects.all().order_by('-add_time')
     serializer_class = MountainSerializer
     filter_backends = [rest_framework.DjangoFilterBackend]
     filterset_fields = ['user__email']
@@ -18,8 +18,8 @@ class MountainsViewset(viewsets.ModelViewSet):
             serializer.save()
             return Response({
                 'status': 200,
-                'message': None,
-                'id': serializer.data['pk'],
+                'message': 'The record was successfully added to the database',
+                'id': serializer.data['id'],
             })
 
         if status.HTTP_400_BAD_REQUEST:
@@ -36,16 +36,17 @@ class MountainsViewset(viewsets.ModelViewSet):
                 'id': None,
             })
 
-    def update(self, request, *args, **kwargs):
-        serializer = MountainSerializer(data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response({
-                'state': 1,
-            })
-
-        else:
-            return Response({
-                'state': 0,
-                'message': serializer.errors
-            })
+    # def update(self, request, *args, **kwargs):
+    #     # super().update(request, *args, **kwargs)
+    #     serializer = self.get_serializer(data=request.data)
+    #     if serializer.is_valid():
+    #         serializer.update()
+    #         return Response({
+    #             'state': 1,
+    #         })
+    #
+    #     else:
+    #         return Response({
+    #             'state': 0,
+    #             'message': serializer.errors
+    #         })

@@ -2,6 +2,9 @@ from .models import Mountain, MountainImage, Coord, User, Level
 from rest_framework import serializers
 
 
+# from drf_writable_nested.serializers import WritableNestedModelSerializer
+
+
 class UsersSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
@@ -21,9 +24,11 @@ class CoordsSerializer(serializers.ModelSerializer):
 
 
 class ImageSerializer(serializers.ModelSerializer):
+    id = serializers.IntegerField(required=False)
+
     class Meta:
         model = MountainImage
-        fields = ['data', 'title']
+        fields = ['id', 'data', 'title']
 
 
 class MountainSerializer(serializers.ModelSerializer):
@@ -34,9 +39,9 @@ class MountainSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Mountain
-        fields = ['pk', 'beauty_title', 'title', 'other_title', 'connect', 'add_time', 'user', 'coords', 'level', 'images',
-                  'status']
-        read_only_fields = ['pk', 'status', 'add_time']
+        fields = ['id', 'beauty_title', 'title', 'other_title', 'connect', 'add_time', 'user', 'coords', 'level',
+                  'images', 'status']
+        read_only_fields = ['id', 'status', 'add_time']
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
@@ -74,8 +79,23 @@ class MountainSerializer(serializers.ModelSerializer):
 
             if 'images' in validated_data:
                 images_data = validated_data.pop('images')
-                for image_data in images_data:
-                    MountainImage.objects.update(mountain=instance, **image_data)
+
+                # if "id" is passed - the image is updated, otherwise it is added
+                for image in images_data:
+                    image_id = image.get('id', None)
+                    if image_id:
+                        inv_image = MountainImage.objects.get(id=image_id)
+                        inv_image.data = image.get('data', inv_image.data)
+                        inv_image.title = image.get('title', inv_image.title)
+                        inv_image.save()
+                    else:
+                        MountainImage.objects.create(mountain=instance, **image)
+
+                # clear list images
+                images_dict = dict((i.id, i) for i in instance.images.all())
+                if 'id' not in images_data:
+                    for image in images_dict.values():
+                        image.delete()
 
             return super(MountainSerializer, self).update(instance, validated_data)
         raise serializers.ValidationError('Update error. Object status is not <NEW>')
