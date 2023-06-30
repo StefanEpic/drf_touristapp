@@ -5,7 +5,7 @@ class User(models.Model):
     first_name = models.CharField(max_length=50)
     second_name = models.CharField(max_length=50)
     last_name = models.CharField(max_length=50)
-    email = models.EmailField(unique=True, null=False, blank=False)
+    email = models.EmailField(null=False, blank=False)
     phone = models.CharField(max_length=12, null=False, blank=False)
 
 

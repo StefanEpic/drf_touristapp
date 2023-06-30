@@ -49,7 +49,13 @@ class MountainSerializer(serializers.ModelSerializer):
         level_data = validated_data.pop('level')
         images_data = validated_data.pop('images')
 
-        user = User.objects.create(**user_data)
+        user_email = user_data.get('email')
+        if User.objects.filter(email=user_email).exists():
+            user = User.objects.get(email=user_email)
+
+        else:
+            user = User.objects.create(**user_data)
+
         coords = Coord.objects.create(**cords_data)
         level = Level.objects.create(**level_data)
 
@@ -93,7 +99,7 @@ class MountainSerializer(serializers.ModelSerializer):
 
                 # clear list images
                 images_dict = dict((i.id, i) for i in instance.images.all())
-                if 'id' not in images_data:
+                if len(images_data) == 0:
                     for image in images_dict.values():
                         image.delete()
 

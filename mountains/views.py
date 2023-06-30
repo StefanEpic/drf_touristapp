@@ -36,17 +36,18 @@ class MountainsViewset(viewsets.ModelViewSet):
                 'id': None,
             })
 
-    # def update(self, request, *args, **kwargs):
-    #     # super().update(request, *args, **kwargs)
-    #     serializer = self.get_serializer(data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.update()
-    #         return Response({
-    #             'state': 1,
-    #         })
-    #
-    #     else:
-    #         return Response({
-    #             'state': 0,
-    #             'message': serializer.errors
-    #         })
+    def partial_update(self, request, *args, **kwargs):
+        mountain = self.get_object()
+        serializer = self.get_serializer(mountain, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({
+                'state': 1,
+                'message': 'The record was successfully updated'
+            })
+
+        else:
+            return Response({
+                'state': 0,
+                'message': serializer.errors
+            })
