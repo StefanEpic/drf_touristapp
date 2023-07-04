@@ -92,5 +92,5 @@ touristapp/yasg.py                         6      0   100%
 TOTAL                                    318     10    97%
 ```
 
-API can be tested on pythonanywhere.com:
+😉 API can be tested on pythonanywhere.com:
 [https://stefanepic.pythonanywhere.com/swagger/](https://stefanepic.pythonanywhere.com/swagger/)
