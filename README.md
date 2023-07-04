@@ -1,4 +1,8 @@
 ## 🌄 API TouristApp
+![Django REST framework](https://img.shields.io/badge/Django%20REST%20framework-3.14-green)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-14-blue)
+![coverage](https://img.shields.io/badge/coverage-97%25-green)
+
 АPI for placing and getting information about mountain passes
 
 ## 📨 Usage
@@ -26,8 +30,8 @@ A tourist, using a mobile application, can send JSON data of the following form,
         "spring": ""
     },
     "images": [
-        {"data"="https://...", "title"="Start"},
-        {"data"="https://...", "title"="End"}
+        {"data": "https://...", "title": "Start"},
+        {"data": "https://...", "title": "End"}
     ]
 }
 ```
@@ -63,7 +67,30 @@ Allows changing a mountain pass attribute values: `PATCH /submitdata/<id>`
 `{"state": 0, "message": serializer.errors}`
 
 ## 📊 Testing
-
+```
+Name                                   Stmts   Miss  Cover
+----------------------------------------------------------
+manage.py                                 12      2    83%
+mountains/__init__.py                      0      0   100%
+mountains/admin.py                         7      0   100%
+mountains/apps.py                          4      0   100%
+mountains/migrations/0001_initial.py       6      0   100%
+mountains/migrations/__init__.py           0      0   100%
+mountains/models.py                       35      0   100%
+mountains/serializers.py                  74      0   100%
+mountains/tests/__init__.py                0      0   100%
+mountains/tests/test_api.py              111      0   100%
+mountains/urls.py                          6      0   100%
+mountains/views.py                        25      0   100%
+touristapp/__init__.py                     0      0   100%
+touristapp/asgi.py                         4      4     0%
+touristapp/settings.py                    19      0   100%
+touristapp/urls.py                         5      0   100%
+touristapp/wsgi.py                         4      4     0%
+touristapp/yasg.py                         6      0   100%
+----------------------------------------------------------
+TOTAL                                    318     10    97%
+```
 
 API can be tested on pythonanywhere.com:
 [https://stefanepic.pythonanywhere.com/swagger/](https://stefanepic.pythonanywhere.com/swagger/)
